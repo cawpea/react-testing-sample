@@ -1,8 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
+import { Counter } from "./components/Counter";
 
 function App() {
+  const [count, setCount] = useState<number>(0);
   return (
     <div className="App">
       <header className="App-header">
@@ -19,6 +21,9 @@ function App() {
           Learn React
         </a>
       </header>
+      <main>
+        <Counter value={count} onChange={(value) => setCount(value)} />
+      </main>
     </div>
   );
 }
