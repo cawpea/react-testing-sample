@@ -12,6 +12,7 @@ describe("Counter", () => {
     const onChange = jest.fn();
     render(<Counter value={0} onChange={onChange} />);
     fireEvent.click(screen.getByLabelText("decrement"));
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toBeCalledWith(-1);
   });
 
@@ -19,6 +20,7 @@ describe("Counter", () => {
     const onChange = jest.fn();
     render(<Counter value={0} onChange={onChange} />);
     fireEvent.click(screen.getByLabelText("increment"));
+    expect(onChange).toHaveBeenCalledTimes(1);
     expect(onChange).toBeCalledWith(1);
   });
 });
