@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type Calculation = (newValue: number) => void;
 
@@ -23,6 +23,10 @@ export const useCalculator: UseCalculator = (value) => {
     setCurrentValue(currentValue * newValue);
   const div: Calculation = (newValue) =>
     setCurrentValue(currentValue / newValue);
+
+  useEffect(() => {
+    setCurrentValue(value);
+  }, [value]);
 
   return {
     currentValue,

@@ -3,7 +3,12 @@ import { useCalculator } from "./index";
 
 describe("useCalculator", () => {
   test("set default value", () => {
-    const { result } = renderHook(() => useCalculator(10));
+    const { result, rerender } = renderHook((defaultValue: number = 0) =>
+      useCalculator(defaultValue)
+    );
+    expect(result.current.currentValue).toBe(0);
+
+    rerender(10);
     expect(result.current.currentValue).toBe(10);
   });
 
