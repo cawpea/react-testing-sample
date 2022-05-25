@@ -3,8 +3,11 @@ import { useCalculator } from "./index";
 
 describe("useCalculator", () => {
   test("set default value", () => {
-    const { result, rerender } = renderHook((defaultValue: number = 0) =>
-      useCalculator(defaultValue)
+    const { result, rerender } = renderHook(
+      (value: number) => useCalculator(value),
+      {
+        initialProps: 0,
+      }
     );
     expect(result.current.currentValue).toBe(0);
 
