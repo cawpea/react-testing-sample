@@ -14,7 +14,7 @@ export const Counter: FC<Props> = ({ value, onChange }) => (
     >
       -
     </button>
-    <p aria-live="polite">{value}</p>
+    <output>{value}</output>
     <button
       type="button"
       onClick={() => onChange(value + 1)}
