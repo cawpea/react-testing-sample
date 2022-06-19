@@ -21,8 +21,14 @@ export const TodoItem: FC<Props> = ({ todoItem }) => {
 
   return (
     <li className={styles.TodoItem}>
-      <p>{todoItem.label}</p>
-      <input type="checkbox" checked={todoItem.isDone} onChange={toggleTodo} />
+      <label>
+        <p>{todoItem.label}</p>
+        <input
+          type="checkbox"
+          checked={todoItem.isDone}
+          onChange={toggleTodo}
+        />
+      </label>
     </li>
   );
 };

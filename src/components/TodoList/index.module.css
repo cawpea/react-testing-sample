@@ -4,6 +4,20 @@
   margin: 40px auto;
 }
 
+.TodoListItems {
+  padding: 0;
+}
+
 .TodoListItems > li:not(:first-child) {
   border-top: 1px solid #ccc;
+}
+
+.TodoItemCreator {
+  background: #eee;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.TodoFilter {
+  margin-top: 24px;
 }

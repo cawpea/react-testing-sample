@@ -1,6 +1,7 @@
 import { FC, useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { todoListState } from "../../store";
+import styles from "./index.module.css";
 
 const getId = () => Math.round(Math.random() * 10000);
 
@@ -22,7 +23,7 @@ export const TodoItemCreator: FC = () => {
   };
 
   return (
-    <div>
+    <div className={styles.TodoItemCreator}>
       <input
         type="text"
         value={value}

@@ -1,0 +1,8 @@
+.TodoItemCreator {
+  display: flex;
+  gap: 16px;
+}
+
+.TodoItemCreator input {
+  flex: 1;
+}
