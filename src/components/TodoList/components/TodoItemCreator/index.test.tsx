@@ -1,8 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RecoilRoot, useRecoilValue } from "recoil";
+import { RecoilRoot } from "recoil";
 import { RecoilObserver } from "tests";
 import { TodoItemCreator } from "./index";
-import { Todo } from "../../types";
 import { todoListState } from "../../store";
 
 describe("TodoItemCreator", () => {
@@ -23,8 +22,8 @@ describe("TodoItemCreator", () => {
     fireEvent.click(submit);
 
     expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenCalledWith([]);
-    expect(onChange).toHaveBeenLastCalledWith([
+    expect(onChange).toHaveBeenNthCalledWith(1, []);
+    expect(onChange).toHaveBeenNthCalledWith(2, [
       {
         id: 1,
         label: "Sample",
