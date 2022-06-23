@@ -3,3 +3,10 @@ export type Todo = {
   label: string;
   isDone: boolean;
 };
+
+export type PlaceholderTodo = {
+  userId: number;
+  id: number;
+  title: string;
+  completed: boolean;
+};
