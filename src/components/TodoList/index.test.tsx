@@ -1,29 +1,39 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import { RecoilObserver } from "tests";
-import { TodoItemCreator } from "./index";
-import { todoListState } from "../../store";
+import { TodoList } from "./index";
+import { todoListState } from "./store";
+import { Todo } from "./types";
 
-describe("TodoItemCreator", () => {
+const defaultFetchedTodoList: Todo[] = [
+  { id: 0, label: "Todo1", isDone: true },
+];
+
+jest.mock("./api", () => ({
+  fetchTodoList: () => defaultFetchedTodoList,
+}));
+
+describe("TodoList", () => {
   const onChange = jest.fn();
 
-  test("add todo list state when todo item was added", () => {
+  test("add todo list state when todo item was added", async () => {
     render(
       <RecoilRoot>
         <RecoilObserver node={todoListState} onChange={onChange} />
-        <TodoItemCreator />
+        <TodoList />
       </RecoilRoot>
     );
 
-    const textbox = screen.getByRole("textbox");
+    const textbox = await screen.findByLabelText("input name of todo");
     const submit = screen.getByRole("button");
 
     fireEvent.change(textbox, { target: { value: "Sample" } });
     fireEvent.click(submit);
 
     expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenNthCalledWith(1, []);
+    expect(onChange).toHaveBeenNthCalledWith(1, defaultFetchedTodoList);
     expect(onChange).toHaveBeenNthCalledWith(2, [
+      ...defaultFetchedTodoList,
       {
         id: 1,
         label: "Sample",
