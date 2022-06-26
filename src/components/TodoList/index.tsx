@@ -1,12 +1,16 @@
 import { FC } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { Todo } from "components/TodoList/types";
-import { todoListState } from "./store";
+import { todoQueryState } from "./store";
+import { useTodoList } from "./hooks";
 import { TodoFilter, TodoItem, TodoItemCreator } from "./components";
 import styles from "./index.module.css";
 
 export const TodoList: FC = () => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
+  const query = useRecoilValue(todoQueryState);
+  const { todoList, setTodoList } = useTodoList({
+    query,
+  });
 
   const addItem = (todoItem: Todo) => {
     setTodoList([...todoList, todoItem]);

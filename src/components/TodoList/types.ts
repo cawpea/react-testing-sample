@@ -10,3 +10,8 @@ export type PlaceholderTodo = {
   title: string;
   completed: boolean;
 };
+
+export type TodoListQuery = {
+  label?: string;
+  isDone?: boolean;
+};

@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { Todo } from "./types";
+import { Todo, TodoListQuery } from "./types";
 import { fetchTodoList } from "./api";
 
 export const todoListState = atom<Todo[]>({
@@ -7,20 +7,26 @@ export const todoListState = atom<Todo[]>({
   default: fetchTodoList(),
 });
 
-export const todoSearchState = atom<string>({
+export const todoQueryState = atom<TodoListQuery>({
   key: "TodoSearch",
-  default: "",
+  default: {
+    label: undefined,
+    isDone: undefined,
+  },
 });
 
 export const filteredTodoList = selector<Todo[]>({
   key: "FilteredTodoList",
   get: ({ get }) => {
-    const search = get(todoSearchState);
+    const query = get(todoQueryState);
     const todoList = get(todoListState);
+    let filteredTodoList = todoList;
 
-    const filteredTodoList = todoList.filter(
-      (todoItem) => todoItem.label.indexOf(search) > -1
-    );
+    if (query.label) {
+      filteredTodoList = todoList.filter(
+        (todoItem) => todoItem.label.indexOf(query.label || "") > -1
+      );
+    }
     return filteredTodoList;
   },
 });
