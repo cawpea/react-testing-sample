@@ -1,4 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import { RecoilObserver } from "tests";
 import { TodoList } from "./index";
@@ -14,9 +15,18 @@ jest.mock("./api", () => ({
 }));
 
 describe("TodoList", () => {
-  const onChange = jest.fn();
+  test("show fetched todo list", async () => {
+    render(
+      <RecoilRoot>
+        <TodoList />
+      </RecoilRoot>
+    );
+
+    expect(await screen.findByText("Todo1")).toBeInTheDocument();
+  });
 
   test("add todo list state when todo item was added", async () => {
+    const onChange = jest.fn();
     render(
       <RecoilRoot>
         <RecoilObserver node={todoListState} onChange={onChange} />

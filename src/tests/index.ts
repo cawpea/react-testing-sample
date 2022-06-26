@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { act } from "@testing-library/react";
 import { useRecoilValue, RecoilState } from "recoil";
 
 type Props<T> = {
@@ -10,4 +11,14 @@ export const RecoilObserver = <T>({ node, onChange }: Props<T>) => {
   const value = useRecoilValue(node);
   useEffect(() => onChange(value), [onChange, value]);
   return null;
+};
+
+export const flushPromiseAndTimers = () => {
+  return act(
+    () =>
+      new Promise((resolve) => {
+        setTimeout(resolve, 100);
+        jest.runAllTimers();
+      })
+  );
 };
