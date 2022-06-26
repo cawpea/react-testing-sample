@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { Suspense } from "react";
 import { RecoilRoot } from "recoil";
 import { RecoilObserver } from "tests";
 import { TodoList } from "./index";
