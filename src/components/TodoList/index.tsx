@@ -1,8 +1,9 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { Todo } from "components/TodoList/types";
 import { todoQueryState } from "./store";
 import { useTodoList } from "./hooks";
+import { fetchTodoList } from "./api";
 import { TodoFilter, TodoItem, TodoItemCreator } from "./components";
 import styles from "./index.module.css";
 
@@ -15,6 +16,10 @@ export const TodoList: FC = () => {
   const addItem = (todoItem: Todo) => {
     setTodoList([...todoList, todoItem]);
   };
+
+  useEffect(() => {
+    fetchTodoList().then((todoList) => setTodoList(todoList));
+  }, []); // eslint-disable-line
 
   return (
     <div className={styles.TodoList}>

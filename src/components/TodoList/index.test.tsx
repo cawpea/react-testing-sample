@@ -10,7 +10,10 @@ const defaultFetchedTodoList: Todo[] = [
 ];
 
 jest.mock("./api", () => ({
-  fetchTodoList: () => defaultFetchedTodoList,
+  fetchTodoList: () =>
+    new Promise((resolve) => {
+      setTimeout(() => resolve(defaultFetchedTodoList), 100);
+    }),
 }));
 
 describe("TodoList", () => {
@@ -33,15 +36,17 @@ describe("TodoList", () => {
       </RecoilRoot>
     );
 
-    const textbox = await screen.findByLabelText("input name of todo");
-    const submit = screen.getByRole("button");
+    await screen.findByText("Todo1");
 
+    const textbox = screen.getByLabelText("input name of todo");
+    const submit = screen.getByRole("button");
     fireEvent.change(textbox, { target: { value: "Sample" } });
     fireEvent.click(submit);
 
-    expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenNthCalledWith(1, defaultFetchedTodoList);
-    expect(onChange).toHaveBeenNthCalledWith(2, [
+    expect(onChange).toHaveBeenCalledTimes(3);
+    expect(onChange).toHaveBeenNthCalledWith(1, []);
+    expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
+    expect(onChange).toHaveBeenNthCalledWith(3, [
       ...defaultFetchedTodoList,
       {
         id: 1,

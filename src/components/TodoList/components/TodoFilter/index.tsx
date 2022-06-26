@@ -11,7 +11,7 @@ export const TodoFilter: FC = () => {
         Search:
         <input
           type="text"
-          value={query.label}
+          defaultValue={query.label}
           onChange={(e) => setQuery({ ...query, label: e.target.value })}
         />
       </label>
