@@ -1,5 +1,5 @@
 import { RecoilRoot } from "recoil";
-import { renderHook, waitFor } from "@testing-library/react";
+import { act, renderHook, waitFor } from "@testing-library/react";
 import { useTodoList } from "./index";
 import { Todo } from "../types";
 
@@ -22,5 +22,25 @@ describe("useTodoList", () => {
     await waitFor(() => {
       expect(result.current.todoList).toStrictEqual(defaultFetchedTodoList);
     });
+  });
+
+  test("set todo list in state", () => {
+    const { result } = renderHook(() => useTodoList(), {
+      wrapper: RecoilRoot,
+    });
+    const newTodo: Todo = {
+      id: 10,
+      label: "Todo1",
+      isDone: false,
+    };
+
+    act(() => {
+      result.current.setTodoList([...result.current.todoList, newTodo]);
+    });
+
+    expect(result.current.todoList).toStrictEqual([
+      ...defaultFetchedTodoList,
+      newTodo,
+    ]);
   });
 });
