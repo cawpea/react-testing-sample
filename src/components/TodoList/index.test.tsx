@@ -43,10 +43,9 @@ describe("TodoList", () => {
     fireEvent.change(textbox, { target: { value: "Sample" } });
     fireEvent.click(submit);
 
-    expect(onChange).toHaveBeenCalledTimes(3);
-    expect(onChange).toHaveBeenNthCalledWith(1, []);
-    expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
-    expect(onChange).toHaveBeenNthCalledWith(3, [
+    expect(onChange).toHaveBeenCalledTimes(2);
+    expect(onChange).toHaveBeenNthCalledWith(1, defaultFetchedTodoList);
+    expect(onChange).toHaveBeenNthCalledWith(2, [
       ...defaultFetchedTodoList,
       {
         id: 1,

@@ -7,12 +7,19 @@ type Props = {
   query: TodoListQuery;
 };
 
-type UseTodoList = (props: Props) => {
+type UseTodoList = (props?: Props) => {
   todoList: Todo[];
   setTodoList: SetterOrUpdater<Todo[]>;
 };
 
-export const useTodoList: UseTodoList = ({ query }) => {
+const defaultProps: Props = {
+  query: {
+    label: undefined,
+    isDone: undefined,
+  },
+};
+
+export const useTodoList: UseTodoList = ({ query } = defaultProps) => {
   const [todoList, setTodoList] = useRecoilState(todoListState);
 
   const filteredTodoList = useMemo(() => {
