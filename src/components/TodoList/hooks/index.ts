@@ -15,7 +15,7 @@ type UseTodoList = (props?: Props) => {
 const defaultProps: Props = {
   query: {
     label: undefined,
-    isDone: undefined,
+    status: "all",
   },
 };
 
@@ -25,15 +25,15 @@ export const useTodoList: UseTodoList = ({ query } = defaultProps) => {
   const filteredTodoList = useMemo(() => {
     let _filteredTodoList: Todo[] = todoList;
     if (query) {
-      const { label, isDone } = query;
+      const { label, status } = query;
       if (label) {
         _filteredTodoList = _filteredTodoList.filter(
           (todoItem) => todoItem.label.indexOf(label) > -1
         );
       }
-      if (isDone) {
+      if (status !== "all") {
         _filteredTodoList = _filteredTodoList.filter(
-          (todoItem) => todoItem.isDone === isDone
+          (todoItem) => todoItem.isDone === (status === "done")
         );
       }
     }

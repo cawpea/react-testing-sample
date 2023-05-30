@@ -11,7 +11,7 @@ export const todoQueryState = atom<TodoListQuery>({
   key: "TodoSearch",
   default: {
     label: undefined,
-    isDone: undefined,
+    status: "all",
   },
 });
 
