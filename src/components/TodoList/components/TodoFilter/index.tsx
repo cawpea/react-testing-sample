@@ -6,15 +6,14 @@ export const TodoFilter: FC = () => {
   const [query, setQuery] = useRecoilState(todoQueryState);
 
   return (
-    <div>
-      <label>
-        Search:
-        <input
-          type="text"
-          defaultValue={query.label}
-          onChange={(e) => setQuery({ ...query, label: e.target.value })}
-        />
-      </label>
-    </div>
+    <label className="flex justify-end gap-4 mt-8 mb-2">
+      <input
+        className="h-8 border rounded-md px-4"
+        type="text"
+        defaultValue={query.label}
+        placeholder="Search Todo"
+        onChange={(e) => setQuery({ ...query, label: e.target.value })}
+      />
+    </label>
   );
 };

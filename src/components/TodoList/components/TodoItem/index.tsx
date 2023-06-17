@@ -3,7 +3,6 @@ import { useRecoilState } from "recoil";
 import { todoListState } from "../../store";
 import { Todo } from "../../types";
 import { replaceItemById } from "utils/array";
-import styles from "./index.module.css";
 
 type Props = {
   todoItem: Todo;
@@ -20,10 +19,11 @@ export const TodoItem: FC<Props> = ({ todoItem }) => {
   };
 
   return (
-    <li className={styles.TodoItem}>
-      <label>
-        <p>{todoItem.label}</p>
+    <li>
+      <label className="flex justify-between py-2">
+        <p className="font-medium">{todoItem.label}</p>
         <input
+          className="w-4"
           type="checkbox"
           checked={todoItem.isDone}
           onChange={toggleTodo}
