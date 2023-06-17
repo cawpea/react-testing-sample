@@ -20,7 +20,7 @@ export const TodoItem: FC<Props> = ({ todoItem }) => {
 
   return (
     <li>
-      <label className="flex justify-between py-2">
+      <label className="flex justify-between p-2 cursor-pointer hover:bg-gray-50">
         <p className="font-medium">{todoItem.label}</p>
         <input
           className="w-4"

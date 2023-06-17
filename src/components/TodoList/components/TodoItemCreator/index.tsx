@@ -23,7 +23,7 @@ export const TodoItemCreator: FC<Props> = ({ onSubmit }) => {
   };
 
   return (
-    <form className="flex gap-4 bg-gray-100 p-4" onSubmit={addItem}>
+    <form className="flex gap-4 bg-gray-100 p-4 rounded-md" onSubmit={addItem}>
       <input
         className="w-full h-10 border rounded-md p-4"
         aria-label="input name of todo"
