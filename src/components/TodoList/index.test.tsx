@@ -7,6 +7,7 @@ import { Todo } from "./types";
 
 const defaultFetchedTodoList: Todo[] = [
   { id: 0, label: "Todo1", isDone: true },
+  { id: 1, label: "Todo2", isDone: false },
 ];
 
 jest.mock("./api", () => ({
@@ -27,32 +28,44 @@ describe("TodoList", () => {
     expect(await screen.findByText("Todo1")).toBeInTheDocument();
   });
 
-  test("add todo list state when todo item was added", async () => {
+  describe("when todo item was added", () => {
     const onChange = jest.fn();
-    render(
-      <RecoilRoot>
-        <RecoilObserver node={todoListState} onChange={onChange} />
-        <TodoList />
-      </RecoilRoot>
-    );
 
-    await screen.findByText("Todo1");
+    beforeEach(async () => {
+      // eslint-disable-next-line
+      render(
+        <RecoilRoot>
+          <RecoilObserver node={todoListState} onChange={onChange} />
+          <TodoList />
+        </RecoilRoot>
+      );
 
-    fireEvent.change(screen.getByLabelText("input name of todo"), {
-      target: { value: "Todo2" },
+      await screen.findByText("Todo1");
+
+      fireEvent.change(screen.getByLabelText("input name of todo"), {
+        target: { value: "Todo3" },
+      });
+      fireEvent.click(screen.getByRole("button"));
     });
-    fireEvent.click(screen.getByRole("button"));
 
-    expect(onChange).toHaveBeenCalledTimes(3);
-    expect(onChange).toHaveBeenNthCalledWith(1, []);
-    expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
-    expect(onChange).toHaveBeenNthCalledWith(3, [
-      {
-        id: 1,
-        label: "Todo2",
-        isDone: false,
-      },
-      ...defaultFetchedTodoList,
-    ]);
+    it("show new todo", () => {
+      expect(screen.getByText("Todo1")).toBeInTheDocument();
+      expect(screen.getByText("Todo2")).toBeInTheDocument();
+      expect(screen.getByText("Todo3")).toBeInTheDocument();
+    });
+
+    it("add new todo in recoil state", async () => {
+      expect(onChange).toHaveBeenCalledTimes(3);
+      expect(onChange).toHaveBeenNthCalledWith(1, []);
+      expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
+      expect(onChange).toHaveBeenNthCalledWith(3, [
+        {
+          id: 1,
+          label: "Todo3",
+          isDone: false,
+        },
+        ...defaultFetchedTodoList,
+      ]);
+    });
   });
 });
