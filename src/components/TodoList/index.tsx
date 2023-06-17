@@ -13,7 +13,9 @@ export const TodoList: FC = () => {
 
   return (
     <div className={styles.TodoList}>
-      <h1>Todo List</h1>
+      <div className="py-4">
+        <h1 className="text-3xl font-bold">Todo List</h1>
+      </div>
       <div className={styles.TodoItemCreator}>
         <TodoItemCreator onCreated={addItem} />
       </div>
