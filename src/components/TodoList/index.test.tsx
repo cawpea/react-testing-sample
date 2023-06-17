@@ -4,6 +4,7 @@ import { RecoilObserver } from "tests";
 import { TodoList } from "./index";
 import { todoListState } from "./store";
 import { Todo } from "./types";
+import userEvent from "@testing-library/user-event";
 
 const defaultFetchedTodoList: Todo[] = [
   { id: 0, label: "Todo1", isDone: true },
@@ -28,9 +29,28 @@ describe("TodoList", () => {
     expect(await screen.findByText("Todo1")).toBeInTheDocument();
   });
 
+  describe("when todo was filtered", () => {
+    beforeEach(async () => {
+      // eslint-disable-next-line
+      render(
+        <RecoilRoot>
+          <TodoList />
+        </RecoilRoot>
+      );
+
+      await screen.findByText("Todo1");
+
+      userEvent.type(screen.getByLabelText("Search Todo"), "1");
+    });
+
+    it("show filtered todo", () => {
+      expect(screen.getByText("Todo1")).toBeInTheDocument();
+      expect(screen.queryByText("Todo2")).not.toBeInTheDocument();
+    });
+  });
+
   describe("when todo item was added", () => {
     const onChange = jest.fn();
-
     beforeEach(async () => {
       // eslint-disable-next-line
       render(
@@ -48,7 +68,7 @@ describe("TodoList", () => {
       fireEvent.click(screen.getByRole("button"));
     });
 
-    it("show new todo", () => {
+    it("show new todo", async () => {
       expect(screen.getByText("Todo1")).toBeInTheDocument();
       expect(screen.getByText("Todo2")).toBeInTheDocument();
       expect(screen.getByText("Todo3")).toBeInTheDocument();
@@ -60,7 +80,7 @@ describe("TodoList", () => {
       expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
       expect(onChange).toHaveBeenNthCalledWith(3, [
         {
-          id: 1,
+          id: 2,
           label: "Todo3",
           isDone: false,
         },

@@ -11,6 +11,7 @@ export const TodoFilter: FC = () => {
         className="h-8 border rounded-md px-4"
         type="text"
         defaultValue={query.label}
+        aria-label="Search Todo"
         placeholder="Search Todo"
         onChange={(e) => setQuery({ ...query, label: e.target.value })}
       />

@@ -1,20 +1,21 @@
 import { FC, useState } from "react";
 import { Todo } from "components/TodoList/types";
 import { FormEventHandler } from "react";
+import { useRecoilValue } from "recoil";
+import { todoListState } from "components/TodoList/store";
 
 type Props = {
   onSubmit: (todoItem: Todo) => void;
 };
 
-const id = 0;
-const getId = () => id + 1;
-
 export const TodoItemCreator: FC<Props> = ({ onSubmit }) => {
+  const todoList = useRecoilValue(todoListState);
   const [value, setValue] = useState<string>("");
 
   const addItem: FormEventHandler = (e) => {
+    const maxId = Math.max(...todoList.map((todo) => todo.id));
     onSubmit({
-      id: getId(),
+      id: maxId + 1,
       label: value,
       isDone: false,
     });
@@ -26,9 +27,9 @@ export const TodoItemCreator: FC<Props> = ({ onSubmit }) => {
     <form className="flex gap-4 bg-gray-100 p-4 rounded-md" onSubmit={addItem}>
       <input
         className="w-full h-10 border rounded-md p-4"
-        aria-label="input name of todo"
         type="text"
         value={value}
+        aria-label="input name of todo"
         placeholder="Input name of todo"
         onChange={(e) => setValue(e.target.value)}
       />
