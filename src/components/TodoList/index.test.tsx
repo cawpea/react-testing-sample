@@ -38,20 +38,21 @@ describe("TodoList", () => {
 
     await screen.findByText("Todo1");
 
-    const textbox = screen.getByLabelText("input name of todo");
-    const submit = screen.getByRole("button");
-    fireEvent.change(textbox, { target: { value: "Sample" } });
-    fireEvent.click(submit);
+    fireEvent.change(screen.getByLabelText("input name of todo"), {
+      target: { value: "Todo2" },
+    });
+    fireEvent.click(screen.getByRole("button"));
 
-    expect(onChange).toHaveBeenCalledTimes(2);
-    expect(onChange).toHaveBeenNthCalledWith(1, defaultFetchedTodoList);
-    expect(onChange).toHaveBeenNthCalledWith(2, [
-      ...defaultFetchedTodoList,
+    expect(onChange).toHaveBeenCalledTimes(3);
+    expect(onChange).toHaveBeenNthCalledWith(1, []);
+    expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
+    expect(onChange).toHaveBeenNthCalledWith(3, [
       {
         id: 1,
-        label: "Sample",
+        label: "Todo2",
         isDone: false,
       },
+      ...defaultFetchedTodoList,
     ]);
   });
 });

@@ -24,7 +24,7 @@ describe("useTodoList", () => {
     });
   });
 
-  test("set todo list in state", () => {
+  test("set todo list in state", async () => {
     const { result } = renderHook(() => useTodoList(), {
       wrapper: RecoilRoot,
     });
@@ -34,13 +34,19 @@ describe("useTodoList", () => {
       isDone: false,
     };
 
+    expect(result.current.todoList).toStrictEqual([]);
+
+    await waitFor(() => {
+      expect(result.current.todoList).toStrictEqual(defaultFetchedTodoList);
+    });
+
     act(() => {
-      result.current.setTodoList([...result.current.todoList, newTodo]);
+      result.current.setTodoList([newTodo, ...result.current.todoList]);
     });
 
     expect(result.current.todoList).toStrictEqual([
-      ...defaultFetchedTodoList,
       newTodo,
+      ...defaultFetchedTodoList,
     ]);
   });
 });
