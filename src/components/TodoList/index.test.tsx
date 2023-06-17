@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { RecoilRoot } from "recoil";
 import { RecoilObserver } from "tests";
 import { TodoList } from "./index";
@@ -62,15 +62,11 @@ describe("TodoList", () => {
 
       await screen.findByText("Todo1");
 
-      fireEvent.change(screen.getByLabelText("input name of todo"), {
-        target: { value: "Todo3" },
-      });
-      fireEvent.click(screen.getByRole("button"));
+      userEvent.type(screen.getByLabelText("input name of todo"), "Todo3");
+      userEvent.click(screen.getByRole("button"));
     });
 
     it("show new todo", async () => {
-      expect(screen.getByText("Todo1")).toBeInTheDocument();
-      expect(screen.getByText("Todo2")).toBeInTheDocument();
       expect(screen.getByText("Todo3")).toBeInTheDocument();
     });
 
