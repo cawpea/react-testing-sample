@@ -1,44 +1,15 @@
-import { useMemo } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
-import { todoListState } from "../store";
-import { Todo, TodoListQuery } from "../types";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+import { todoListState, filteredTodoListState } from "../store";
+import { Todo } from "../types";
 
-type Props = {
-  query: TodoListQuery;
-};
-
-type UseTodoList = (props?: Props) => {
+type UseTodoList = () => {
   todoList: Todo[];
   setTodoList: SetterOrUpdater<Todo[]>;
 };
 
-const defaultProps: Props = {
-  query: {
-    label: undefined,
-    status: "all",
-  },
-};
+export const useTodoList: UseTodoList = () => {
+  const [, setTodoList] = useRecoilState(todoListState);
+  const todoList = useRecoilValue(filteredTodoListState);
 
-export const useTodoList: UseTodoList = ({ query } = defaultProps) => {
-  const [todoList, setTodoList] = useRecoilState(todoListState);
-
-  const filteredTodoList = useMemo(() => {
-    let _filteredTodoList: Todo[] = todoList;
-    if (query) {
-      const { label, status } = query;
-      if (label) {
-        _filteredTodoList = _filteredTodoList.filter(
-          (todoItem) => todoItem.label.indexOf(label) > -1
-        );
-      }
-      if (status !== "all") {
-        _filteredTodoList = _filteredTodoList.filter(
-          (todoItem) => todoItem.isDone === (status === "done")
-        );
-      }
-    }
-    return _filteredTodoList;
-  }, [todoList, query]);
-
-  return { todoList: filteredTodoList, setTodoList };
+  return { todoList, setTodoList };
 };

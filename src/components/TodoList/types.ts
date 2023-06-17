@@ -13,5 +13,4 @@ export type PlaceholderTodo = {
 
 export type TodoListQuery = {
   label?: string;
-  status: "all" | "done" | "undone";
 };

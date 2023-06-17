@@ -11,11 +11,10 @@ export const todoQueryState = atom<TodoListQuery>({
   key: "TodoSearch",
   default: {
     label: undefined,
-    status: "all",
   },
 });
 
-export const filteredTodoList = selector<Todo[]>({
+export const filteredTodoListState = selector<Todo[]>({
   key: "FilteredTodoList",
   get: ({ get }) => {
     const query = get(todoQueryState);
@@ -24,9 +23,10 @@ export const filteredTodoList = selector<Todo[]>({
 
     if (query.label) {
       filteredTodoList = todoList.filter(
-        (todoItem) => todoItem.label.indexOf(query.label || "") > -1
+        (todoItem) => todoItem.label.indexOf(query.label!) > -1
       );
     }
+
     return filteredTodoList;
   },
 });
