@@ -1,7 +1,6 @@
-import { FC, useState } from "react";
-import { Todo } from "components/TodoList/types";
-import { FormEventHandler } from "react";
+import { FC, useState, FormEventHandler } from "react";
 import { useRecoilValue } from "recoil";
+import { Todo } from "components/TodoList/types";
 import { todoListState } from "components/TodoList/store";
 
 type Props = {
@@ -29,7 +28,7 @@ export const TodoItemCreator: FC<Props> = ({ onSubmit }) => {
         className="w-full h-10 border rounded-md p-4"
         type="text"
         value={value}
-        aria-label="input name of todo"
+        aria-label="Input name of todo"
         placeholder="Input name of todo"
         onChange={(e) => setValue(e.target.value)}
       />

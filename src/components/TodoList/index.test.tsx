@@ -6,7 +6,7 @@ import { todoListState } from "./store";
 import { Todo } from "./types";
 import userEvent from "@testing-library/user-event";
 
-const defaultFetchedTodoList: Todo[] = [
+const mockTodoList: Todo[] = [
   { id: 0, label: "Todo1", isDone: true },
   { id: 1, label: "Todo2", isDone: false },
 ];
@@ -14,19 +14,28 @@ const defaultFetchedTodoList: Todo[] = [
 jest.mock("./api", () => ({
   fetchTodoList: () =>
     new Promise((resolve) => {
-      setTimeout(() => resolve(defaultFetchedTodoList), 100);
+      setTimeout(
+        () =>
+          resolve([
+            { id: 0, label: "Todo1", isDone: true },
+            { id: 1, label: "Todo2", isDone: false },
+          ]),
+        100
+      );
     }),
 }));
 
 describe("TodoList", () => {
-  test("show fetched todo list", async () => {
+  it("show fetched todo list", async () => {
     render(
       <RecoilRoot>
         <TodoList />
       </RecoilRoot>
     );
 
-    expect(await screen.findByText("Todo1")).toBeInTheDocument();
+    mockTodoList.forEach(async (todo) => {
+      expect(await screen.findByText(todo.label)).toBeVisible();
+    });
   });
 
   describe("when todo was filtered", () => {
@@ -44,7 +53,7 @@ describe("TodoList", () => {
     });
 
     it("show filtered todo", () => {
-      expect(screen.getByText("Todo1")).toBeInTheDocument();
+      expect(screen.getByText("Todo1")).toBeVisible();
       expect(screen.queryByText("Todo2")).not.toBeInTheDocument();
     });
   });
@@ -62,25 +71,24 @@ describe("TodoList", () => {
 
       await screen.findByText("Todo1");
 
-      userEvent.type(screen.getByLabelText("input name of todo"), "Todo3");
+      userEvent.type(screen.getByLabelText("Input name of todo"), "Todo3");
       userEvent.click(screen.getByRole("button"));
     });
 
-    it("show new todo", async () => {
-      expect(screen.getByText("Todo3")).toBeInTheDocument();
+    it("show new todo", () => {
+      expect(screen.getByText("Todo3")).toBeVisible();
     });
 
     it("add new todo in recoil state", async () => {
-      expect(onChange).toHaveBeenCalledTimes(3);
-      expect(onChange).toHaveBeenNthCalledWith(1, []);
-      expect(onChange).toHaveBeenNthCalledWith(2, defaultFetchedTodoList);
-      expect(onChange).toHaveBeenNthCalledWith(3, [
+      expect(onChange).toHaveBeenCalledTimes(2);
+      expect(onChange).toHaveBeenNthCalledWith(1, mockTodoList);
+      expect(onChange).toHaveBeenNthCalledWith(2, [
         {
           id: 2,
           label: "Todo3",
           isDone: false,
         },
-        ...defaultFetchedTodoList,
+        ...mockTodoList,
       ]);
     });
   });

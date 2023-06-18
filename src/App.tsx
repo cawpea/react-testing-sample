@@ -5,6 +5,7 @@ import "./App.css";
 // import { Calculator } from "./components/Calculator";
 import { RecoilRoot } from "recoil";
 import { TodoList } from "./components/TodoList";
+import { Suspense } from "react";
 
 function App() {
   // const [count, setCount] = useState<number>(0);
@@ -28,7 +29,9 @@ function App() {
         <main>
           {/* <Counter value={count} onChange={(value) => setCount(value)} /> */}
           {/* <Calculator /> */}
-          <TodoList />
+          <Suspense fallback={<div>Loading...</div>}>
+            <TodoList />
+          </Suspense>
         </main>
       </div>
     </RecoilRoot>

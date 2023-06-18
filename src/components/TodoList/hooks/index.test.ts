@@ -34,11 +34,7 @@ describe("useTodoList", () => {
       isDone: false,
     };
 
-    expect(result.current.todoList).toStrictEqual([]);
-
-    await waitFor(() => {
-      expect(result.current.todoList).toStrictEqual(defaultFetchedTodoList);
-    });
+    expect(result.current.todoList).toStrictEqual(defaultFetchedTodoList);
 
     act(() => {
       result.current.setTodoList([newTodo, ...result.current.todoList]);

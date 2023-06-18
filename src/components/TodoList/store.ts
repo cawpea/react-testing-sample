@@ -1,9 +1,10 @@
 import { atom, selector } from "recoil";
 import { Todo, TodoListQuery } from "./types";
+import { fetchTodoList } from "./api";
 
 export const todoListState = atom<Todo[]>({
   key: "TodoList",
-  default: [],
+  default: fetchTodoList(),
 });
 
 export const todoQueryState = atom<TodoListQuery>({
