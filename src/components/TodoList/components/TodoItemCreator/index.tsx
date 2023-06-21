@@ -28,8 +28,8 @@ export const TodoItemCreator: FC<Props> = ({ onSubmit }) => {
         className="w-full h-10 border rounded-md p-4"
         type="text"
         value={value}
-        aria-label="Input name of todo"
-        placeholder="Input name of todo"
+        aria-label="Input name of Todo"
+        placeholder="Input name of Todo"
         onChange={(e) => setValue(e.target.value)}
       />
       <button

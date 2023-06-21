@@ -71,7 +71,7 @@ describe("TodoList", () => {
 
       await screen.findByText("Todo1");
 
-      userEvent.type(screen.getByLabelText("Input name of todo"), "Todo3");
+      userEvent.type(screen.getByLabelText("Input name of Todo"), "Todo3");
       userEvent.click(screen.getByRole("button"));
     });
 
